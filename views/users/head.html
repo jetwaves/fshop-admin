@@ -1,0 +1,30 @@
+<div class="collapse navbar-collapse">
+    <% if (user_name) { %>
+        <ul class="nav pull-right">
+            <li>
+                <a href="/users/logout">退出</a>
+            </li>
+        </ul>
+        <ul class="nav pull-right disabled" style="padding:10px">
+            <li>
+                <span>/</span>
+            </li>
+        </ul>    
+        <ul class="nav pull-right" style="padding:10px">
+            <li>
+                <span><%= user_name %>  看这里：没事别乱点啊 </span>
+            </li>
+        </ul>
+    <% } else { %>
+        <ul class="nav pull-right">
+            <li>
+                <a href="/users/login">登录</a>
+            </li>
+        </ul>
+    <% } %>
+    <ul class="nav pull-right">
+        <li>
+            <a href="/home"> <span class="glyphicon glyphicon-home"></span> </a>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<script src="/jquery/jquery.js"></script>
+	<script src="/bootstrap/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+	<script src = "http://apps.bdimg.com/libs/angular.js/1.2.15/angular.min.js"></script>
+	<title><%= pageName %></title>
+</head>
+<body ng-app="" ng-controller="userController" >
+<% include head.html %>	
+<form role="form" action="<%= formUrl %>" method="post" class="form-horizontal">
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<h3><%= pageName %></h3>
+		</div>
+		<div class="col-md-12 column bg-danger hide" id="err_msg" style="text-align:center;">
+			<p>错误：<%= msg %></p>
+		</div>		
+		<div class="row clearfix" id="delAction">
+			<div class="col-md-8 column">
+				<div class="form-group" style="text-align:center;">
+					<div class="bg-danger" style="text-align:center;">   删除后不可恢复   </div>
+					<a href="/users/del/{{user._id}}" class="btn btn-primary" ><span class="glyphicon glyphicon-remove"></span>  删除</a> 
+					<div class="bg-danger" style="text-align:center;">   真的要删吗？T﹏T   </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-10 column">
+			<div class="form-group">
+				 <label for="user_name" class="col-md-4 control-label" style="text-align:center;">用户名</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="user_name" value="{{user.user_name}}"/>
+					 <input type="hidden" class="form-control" name="uid" value="{{user._id}}" />
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="password" class="col-md-4 control-label" style="text-align:center;">密码</label>
+				 <div class="col-md-6">
+					 <input type="password" class="form-control" name="password" />
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="user_right" class="col-md-4 control-label" style="text-align:center;">权限</br>(0 无；1 查看；2 修改；3 删除)</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control" name="user_right" value="{{user.user_right}}" />
+				 </div>
+			</div>
+		</div>			
+	</div>
+</div>
+<hr/>
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-10 column"  style="text-align:center;">
+				<input type="submit" class="btn btn-primary" />
+		</div>
+	</div>
+</div>
+</form>
+<hr/>
+
+<script>
+function userController($scope,$http) {
+	var currentUrl = window.location.pathname;
+	if (currentUrl.indexOf('add') > 5) {
+		$("#delAction").addClass("hide");
+		var msgContent = "<%= msg %>";
+		if (msgContent != null && msgContent != "undefined") {
+			$("#err_msg").removeClass("hide");
+		};
+		return;
+	};
+	if (currentUrl.indexOf('update') > 5) {
+		// 修改
+		$("#delAction").removeClass("hide");
+		var infoUrl = currentUrl.replace("update","info");
+		$http.get(infoUrl).success(function(response){
+			$scope.user = response;
+		});
+		return;
+	};	
+}
+</script>
+</body>
+</html>
