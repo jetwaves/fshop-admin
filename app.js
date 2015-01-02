@@ -18,6 +18,14 @@ app.set('view engine', 'ejs');
 // 用ejs来解析html
 app.engine('html', require('ejs').renderFile);
 
+// 设置静态路由
+app.use('/bootstrap', express.static(__dirname + '/bower_components/bootstrap/dist'));      // bootstrap
+app.use('/jquery', express.static(__dirname + '/bower_components/jquery/dist'));            // jQuery
+app.use('/ng', express.static(__dirname + '/bower_components/angularjs'));                  // angularjs
+app.use('/dt', express.static(__dirname + '/bower_components/datatables/media'));                  // datatables
+app.use('/file', express.static(__dirname + '/file'));                  // datatables
+
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));

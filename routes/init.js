@@ -14,18 +14,7 @@ var dbName = "fshop";
 var collectionName = "users";
 var db = require('mongojs').connect(dbName,["users"]);
 
-const USER_LIST_PAGE = "/users/list";
-const ADD_FORM_PAGE_URL = "/users/add";
-
-var MODEL_NAME = "users";
-var MODEL_NAME_TEXT = "用户";
-var FORM_ADD_URL = "/" + MODEL_NAME + "/addAction";
-var FORM_UPDATE_URL = "/" + MODEL_NAME + "/updateAction";
-var FORM_DELETE_URL = "/" + MODEL_NAME + "/delAction";
-
 // 模型内部路由设置
-// 
-
 // router.get('/', list );
 router.get('/init', init );
 router.get('/info', info );

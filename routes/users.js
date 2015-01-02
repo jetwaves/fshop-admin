@@ -9,7 +9,7 @@ function md5 (text) {
 var mongojs =require('mongojs');	// mongojs 访问数据库
 
 // var dbName = "fshopAdmin";
-var dbName = "testforwx";
+var dbName = "fshop";
 var collectionName = "users";
 var db = require('mongojs').connect(dbName,["users"]);
 
@@ -28,33 +28,23 @@ var FORM_DELETE_URL = "/" + MODEL_NAME + "/delAction";
 router.get('/', list );
 router.get('/list', list );
 router.get('/listData', listData );
-router.get('/mgtest', mgtest );
-router.get('/init', init );
+router.get('/update/:id', update );
+router.get('/info/:id', userInfo );
+router.get('/add', add );
+router.post('/addAction', addAction );
+router.get('/del/:id', deleteAction );
+router.post('/updateAction', updateAction );
+
 
 function encryptPassword( pwd, salt){
 	return md5( salt.concat(md5(pwd)).concat(salt) );
 }
 
-// 初始化超级用户
-function init(req, res){
-	var suName = "su";
-	var password = "admin";//	初始化的超级用户密码
-	var salt = '685214';
-	var pwdmd5 = encryptPassword(password, salt);
-	var superAdmin = { user_name : suName, password: pwdmd5, user_right: 9, salt: salt };
-	res.json(superAdmin);
-
+function _infoJump(res, info, targetUrl){
+	rend = { msg : info, targetUrl : targetUrl };
+	res.render("./public/info.html", rend);
 }
 
-function test2(req, res){
-	res.send('this is a test2');
-}
-
-function mgtest(req, res){
-	db.users.find({}, function(err,records){
-		res.json(records);
-	});
-}
 
 
 function index(req,res){
@@ -127,7 +117,8 @@ function userInsertResponse(err, result){
 		return;
 	} else{
 		// 添加成功
-		htmlRes.redirect(ADD_FORM_PAGE_URL);
+		// htmlRes.redirect(ADD_FORM_PAGE_URL);
+		_infoJump(htmlRes, '添加用户成功，即将返回用户列表', USER_LIST_PAGE);
 		return;
 	};
 }
@@ -135,13 +126,14 @@ function userInsertResponse(err, result){
 // 查找重名用户的回调
 function userNameDuplicateResponse(err, cnt){
 	console.log("重名查询done");
+	console.log(' user.js 	userNameDuplicateResponse 	cnt = ' + cnt);
 	if (err != null ) {
 		console.log(JSON.stringify(err));
-		htmlRes.redirect(ADD_FORM_PAGE_URL + "/重名检测失败");
+		_infoJump(htmlRes, '重名检测失败', ADD_FORM_PAGE_URL);
 		return;
 	} else{
 		if (cnt > 0 ) {
-			htmlRes.redirect(ADD_FORM_PAGE_URL+ "/用户名已经存在");
+			_infoJump(htmlRes, '用户名已经存在', ADD_FORM_PAGE_URL);
 		} else{
 			salt = Math.floor(Math.random() * ( 10000 ));
 			var saltMd5 = md5(salt.toString());
@@ -196,17 +188,30 @@ function addAction(req,res){
 	};
 	// 查看是否重名
 	var query = { user_name : user_name };
+	console.log(' users.js 		addAction 		user_name = ' + user_name);
 	db.users.count(query, userNameDuplicateResponse);
 };
 
 function update(req,res){
-	var rend = {
-			formUrl : FORM_UPDATE_URL,
-			pageName : "修改" + MODEL_NAME_TEXT,
-			pageAction : "update",
-			msg: ""
-	};
-	res.render("./users/update.html", rend);
+	var id = req.params.id;
+	console.log(' users 	update 	id = ' + id);
+	var cond = { _id: mongojs.ObjectId(id) };
+	db.users.find(cond, function(err, user){
+		if (err) {
+			console.log(' ERROR: users 	update 	: ');
+			console.dir(err);
+			_infoJump(res, ' :(  查找用户信息失败，即将返回首页', '/');
+		};
+		var rend = {
+				formUrl : FORM_UPDATE_URL,
+				pageName : "修改" + MODEL_NAME_TEXT,
+				pageAction : "update",
+				msg: "",
+				user: user
+		};
+		res.render("./users/update.html", rend);
+	});
+
 };
 
 
@@ -229,14 +234,17 @@ function updateAction(req,res){
 			update = { $set :  {password:password, user_right: user_right }};
 			cond = {query: query , update: update };
 			db.users.findAndModify( cond, function(err,result){
-				res.redirect(USER_LIST_PAGE);
+				// res.redirect(USER_LIST_PAGE);
+				_infoJump(res, '修改密码成功，即将返回', USER_LIST_PAGE);
+				
 			});
 		});
 	} else {
 		update = { $set :  { user_right: user_right }};
 		cond = {query: query , update: update };
 		db.users.findAndModify( cond, function(err,result){
-			res.redirect(USER_LIST_PAGE);
+			// res.redirect(USER_LIST_PAGE);
+			_infoJump(res, '修改权限成功，即将返回', USER_LIST_PAGE);
 		});
 	}
 };
@@ -250,7 +258,8 @@ function deleteAction(req,res){
 			console.log(JSON.stringify(err));
 			res.send(JSON.stringify(err));
 		};
-		res.redirect(USER_LIST_PAGE);
+		_infoJump(res, '删除成功，即将返回用户列表页', USER_LIST_PAGE);
+		// res.redirect(USER_LIST_PAGE);
 	});	
 };
 

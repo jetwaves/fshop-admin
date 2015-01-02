@@ -9,7 +9,6 @@
 	<title><%= pageName %></title>
 </head>
 <body ng-app="" ng-controller="userController" >
-<% include head.html %>	
 <form role="form" action="<%= formUrl %>" method="post" class="form-horizontal">
 <div class="container">
 	<div class="row clearfix">
@@ -23,7 +22,7 @@
 			<div class="col-md-8 column">
 				<div class="form-group" style="text-align:center;">
 					<div class="bg-danger" style="text-align:center;">   删除后不可恢复   </div>
-					<a href="/users/del/{{user._id}}" class="btn btn-primary" ><span class="glyphicon glyphicon-remove"></span>  删除</a> 
+					<a href="/users/del/{{user._id}}" class="btn btn-danger" ><span class="glyphicon glyphicon-remove"></span>  删除</a> 
 					<div class="bg-danger" style="text-align:center;">   真的要删吗？T﹏T   </div>
 				</div>
 			</div>
