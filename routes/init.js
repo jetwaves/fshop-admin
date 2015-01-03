@@ -14,10 +14,17 @@ var dbName = "fshop";
 var collectionName = "users";
 var db = require('mongojs').connect(dbName,["users"]);
 
+// var suName = "su";		// 超级用户名，这里改成用户自己需要的超级用户名
+// var password = "admin";	// 初始化的超级用户密码
+// var salt = '685214';	// 这里改成用户自己需要的超级用户salt
+
+var suName = "";		// 超级用户名，这里改成用户自己需要的超级用户名
+var password = "";		// 初始化的超级用户密码
+var salt = '';			// 这里改成用户自己需要的超级用户salt
+
 // 模型内部路由设置
 // router.get('/', list );
 router.get('/init', init );
-router.get('/info', info );
 
 function encryptPassword( pwd, salt){
 	return md5( salt.concat(md5(pwd)).concat(salt) );
@@ -25,20 +32,12 @@ function encryptPassword( pwd, salt){
 
 // 初始化超级用户
 function init(req, res){
-	var suName = "su";		// 超级用户名，这里改成用户自己需要的超级用户名
-	var password = "admin";	// 初始化的超级用户密码
-	var salt = '685214';	// 这里改成用户自己需要的超级用户salt
 	var pwdmd5 = encryptPassword(password, salt);
 	var superAdmin = { user_name : suName, password: pwdmd5, user_right: 9, salt: salt };
 	// res.json(superAdmin);
 	db.users.insert(superAdmin, function(err, result){
 		_infoJump(res, '初始化超级用户成功，即将返回首页', '/');
 	});
-}
-
-function info(req, res){
-	console.log(' init.js 	info');
-	_infoJump(res, '测试跳转', '/');
 }
 
 function _infoJump(res, info, targetUrl){
