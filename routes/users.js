@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 var crypto = require('crypto');		// 加密用
 
 function md5 (text) {
@@ -231,7 +232,7 @@ function updateAction(req,res){
 			var salt = user['salt'];
 			new_pwd = md5( md5(input_password) + salt);		// 先加密
 			password = new_pwd;
-			update = { $set :  {password:password, user_right: user_right }};
+			update = { $set :  {password:password, user_right: user_right } };
 			cond = {query: query , update: update };
 			db.users.findAndModify( cond, function(err,result){
 				// res.redirect(USER_LIST_PAGE);

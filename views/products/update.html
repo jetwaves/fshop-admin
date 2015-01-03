@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<script src="/jquery/jquery.js"></script>
+	<script src="/bootstrap/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+	<script src = "http://apps.bdimg.com/libs/angular.js/1.2.15/angular.min.js"></script>
+	<title><%= pageName %></title>
+<script>
+function userController($scope,$http) {
+	var currentUrl = window.location.pathname;
+	if (currentUrl.indexOf('add') > 5) {
+		$("#delAction").addClass("hide");
+		var msgContent = "<%= msg %>";
+		if (msgContent != null && msgContent != "undefined") {
+			$("#err_msg").removeClass("hide");
+		};
+		return;
+	};
+	if (currentUrl.indexOf('update') > 5) {
+		// 修改
+		$("#delAction").removeClass("hide");
+		var infoUrl = currentUrl.replace("update","info");
+		$http.get(infoUrl).success(function(response){
+			$scope.object = response;
+		});
+		return;
+	};	
+}
+</script>
+</head>
+<body ng-app="" ng-controller="userController" >
+<form role="form" action="<%= formUrl %>" method="post" class="form-horizontal">
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<h3 style="text-align:center"><%= pageName %></h3>
+		</div>
+		<div class="col-md-12 column bg-danger hide" id="err_msg" style="text-align:center;">
+			<p>错误：<%= msg %></p>
+		</div>		
+		<div class="row clearfix" id="delAction">
+			<div class="col-md-8 column">
+				<div class="form-group" style="text-align:center;">
+					<div class="bg-danger" style="text-align:center;">   删除后不可恢复(是真的无法恢复)   </div>
+					<a href="/products/del/{{object._id}}" class="btn btn-danger" ><span class="glyphicon glyphicon-remove"></span>  删除</a> 
+					<div class="bg-danger" style="text-align:center;">   真的要删吗？T﹏T   </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-6 column">
+			<div class="form-group">
+				 <label for="product_name" class="col-md-4 control-label" style="text-align:center;">商品名</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="product_name" value="{{object.product_name}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="spec" class="col-md-4 control-label" style="text-align:center;">规格</label>
+				 <div class="col-md-6">
+					 <input type="spec" class="form-control" name="spec" value="{{object.spec}}" />
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="unit_quantity" class="col-md-4 control-label" style="text-align:center;">单件数量（公斤或个数）</label>
+				 <div class="col-md-6">
+					 <input type="unit_quantity" class="form-control" name="unit_quantity" value="{{object.unit_quantity}}" />
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="price" class="col-md-4 control-label" style="text-align:center;">价格</label>
+				 <div class="col-md-6">
+					 <input type="price" class="form-control" name="price" value="{{object.price}}" />
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="pic_url" class="col-md-4 control-label" style="text-align:center;">图片</label>
+				 <div class="col-md-6">
+					 <input type="pic_url" class="form-control" name="pic_url" value="{{object.pic_url}}" />
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="sup_info" class="col-md-4 control-label" style="text-align:center;">备注</label>
+				 <div class="col-md-6">
+					 <input type="sup_info" class="form-control" name="sup_info" value="{{object.sup_info}}" />
+				 </div>
+			</div>
+
+		</div>			
+	</div>
+</div>
+<hr/>
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-10 column"  style="text-align:center;">
+				<input type="submit" class="btn btn-primary" />
+		</div>
+	</div>
+</div>
+	<input type="hidden" class="form-control" name="_id" value="{{object._id}}" />
+</form>
+<hr/>
+
+</body>
+</html>
