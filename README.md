@@ -38,6 +38,7 @@ fshop-admin 分销网店管理后台（商品及用户管理系统）
 			4. list.html 	修改 datatables 的 thead 参数，是列的字段中文名
 			5. update.html  删除products的字段列表，新增ads的字段列表
 								都是复制粘贴，只需要改  {{object.*******}} 中的  ******
+			6. /app.js 		增加新模型的require和路由规则
 								
 		特殊需求： 
 
@@ -49,14 +50,16 @@ fshop-admin 分销网店管理后台（商品及用户管理系统）
 
 -----------
 
-1. 安装和初始化 
+	1. 安装和初始化 
 
-1.1. 	修改routes/init.js 13# dbName，使用自定义的数据库名字
-1.2. 	修改routes/init.js 17# - 19# 的超级用户用户名，密码和salt
-1.3. 	(可选)自定义routes/init.js 中 encryptPassword 方法的加密算法，
-				记得也要去修改  users.js 和 auth.js 
-			TODO: 
-				加密算法	抽出来放到一个独立模块
-				_infoJump	抽出来放到一个独立模块
-1.4. 	执行 localhost:3000/init/init，初始化数据库和超级用户
+	1.1. 	修改routes/init.js 13# dbName，使用自定义的数据库名字
+
+	1.2. 	修改routes/init.js 17# - 19# 的超级用户用户名，密码和salt
+
+	1.3. 	(可选)自定义routes/init.js 中 encryptPassword 方法的加密算法，
+						记得也要去修改  users.js 和 auth.js 
+				TODO: 
+					加密算法	抽出来放到一个独立模块
+					_infoJump	抽出来放到一个独立模块
+	1.4. 	执行 localhost:3000/init/init，初始化数据库和超级用户
 

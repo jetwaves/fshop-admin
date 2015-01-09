@@ -8,7 +8,7 @@
 	<script src = "http://apps.bdimg.com/libs/angular.js/1.2.15/angular.min.js"></script>
 	<title><%= pageName %></title>
 <script>
-function userController($scope,$http) {
+function objController($scope,$http) {
 	var currentUrl = window.location.pathname;
 	if (currentUrl.indexOf('add') > 5) {
 		$("#delAction").addClass("hide");
@@ -30,7 +30,7 @@ function userController($scope,$http) {
 }
 </script>
 </head>
-<body ng-app="" ng-controller="userController" >
+<body ng-app="" ng-controller="objController" >
 <form role="form" action="<%= formUrl %>" method="post" class="form-horizontal">
 <div class="container">
 	<div class="row clearfix">

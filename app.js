@@ -9,6 +9,7 @@ var init = require('./routes/init');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var products = require('./routes/products');
+var clients = require('./routes/clients');
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use('/init', init);     // 用于初始化
 app.use('/', routes);
 app.use('/users', users);
 app.use('/products', products);
+app.use('/clients', clients);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

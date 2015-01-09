@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<script src="/jquery/jquery.js"></script>
+	<script src="/bootstrap/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+	<script src = "http://apps.bdimg.com/libs/angular.js/1.2.15/angular.min.js"></script>
+	<title><%= pageName %></title>
+<script>
+function objController($scope,$http) {
+	var currentUrl = window.location.pathname;
+	if (currentUrl.indexOf('add') > 5) {
+		$("#delAction").addClass("hide");
+		var msgContent = "<%= msg %>";
+		if (msgContent != null && msgContent != "undefined") {
+			$("#err_msg").removeClass("hide");
+		};
+		return;
+	};
+	if (currentUrl.indexOf('update') > 5) {
+		// 修改
+		$("#delAction").removeClass("hide");
+		var infoUrl = currentUrl.replace("update","info");
+		$http.get(infoUrl).success(function(response){
+			$scope.object = response;
+		});
+		return;
+	};	
+}
+</script>
+</head>
+<body ng-app="" ng-controller="objController" >
+<form role="form" action="<%= formUrl %>" method="post" class="form-horizontal">
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<h3 style="text-align:center"><%= pageName %></h3>
+		</div>
+		<div class="col-md-12 column bg-danger hide" id="err_msg" style="text-align:center;">
+			<p>错误：<%= msg %></p>
+		</div>		
+		<div class="row clearfix" id="delAction">
+			<div class="col-md-8 column">
+				<div class="form-group" style="text-align:center;">
+					<div class="bg-danger" style="text-align:center;">   删除后不可恢复(是真的无法恢复)   </div>
+					<a href="/products/del/{{object._id}}" class="btn btn-danger" ><span class="glyphicon glyphicon-remove"></span>  删除</a> 
+					<div class="bg-danger" style="text-align:center;">   真的要删吗？T﹏T   </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-6 column">
+			<div class="form-group">
+				 <label for="user_name" class="col-md-4 control-label" style="text-align:center;">用户名(手机号)</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="user_name" value="{{object.user_name}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="password" class="col-md-4 control-label" style="text-align:center;">密码</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="password" value="{{object.password}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="shop_name" class="col-md-4 control-label" style="text-align:center;">店铺名称</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="shop_name" value="{{object.shop_name}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="owner" class="col-md-4 control-label" style="text-align:center;">负责人</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="owner" value="{{object.owner}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="tel" class="col-md-4 control-label" style="text-align:center;">负责人电话</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="tel" value="{{object.tel}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="email" class="col-md-4 control-label" style="text-align:center;">邮件</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="email" value="{{object.email}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="wechat" class="col-md-4 control-label" style="text-align:center;">微信</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="wechat" value="{{object.wechat}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="address" class="col-md-4 control-label" style="text-align:center;">店铺地址</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="address" value="{{object.address}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="status" class="col-md-4 control-label" style="text-align:center;">店铺状态</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="status" value="{{object.status}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="bonus" class="col-md-4 control-label" style="text-align:center;">积分</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="bonus" value="{{object.bonus}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="sup_info" class="col-md-4 control-label" style="text-align:center;">备注</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="sup_info" value="{{object.sup_info}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="account_manager" class="col-md-4 control-label" style="text-align:center;">客户经理</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="account_manager" value="{{object.account_manager}}"/>
+				 </div>
+			</div>
+			<div class="form-group">
+				 <label for="am_tel" class="col-md-4 control-label" style="text-align:center;">客户经理电话</label>
+				 <div class="col-md-6">
+					 <input type="text" class="form-control"  name="am_tel" value="{{object.am_tel}}"/>
+				 </div>
+			</div>
+		</div>			
+	</div>
+</div>
+<hr/>
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-10 column"  style="text-align:center;">
+				<input type="submit" class="btn btn-primary" />
+		</div>
+	</div>
+</div>
+	<input type="hidden" class="form-control" name="_id" value="{{object._id}}" />
+</form>
+<hr/>
+
+</body>
+</html>
