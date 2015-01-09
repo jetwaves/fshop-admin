@@ -44,6 +44,7 @@ function list(req, res){
 
 function listData(req, res){
 	db[modelName].find({}, function(err, records){
+		res.set('Access-Control-Allow-Origin', '*');		// 让来自于APP和网页的程序可以跨域访问
 		res.json({data: records});
 	});
 }
