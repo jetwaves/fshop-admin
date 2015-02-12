@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<script src="/jquery/jquery.js"></script>
+	<script src="/bootstrap/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+	<script src = "http://apps.bdimg.com/libs/angular.js/1.2.15/angular.min.js"></script>
+	<title><%= pageName %></title>
+
+</head>
+<body ng-app="" ng-controller="objController" >
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-6 column" style="background-color:green">
+			<form role="form" action="<%= formUrl %>" method="post" class="form-horizontal">
+				<div class="row">
+					<div class="col-lg-12 column" style="background-color:aqua">
+						<h2>设定文本消息，点按钮群发(测试号)</h2>
+					</div>
+				</div>
+				<div class="form-group">
+					 <label for="title" class="col-md-2 control-label" style="text-align:center;">APP ID</label>
+					 <div class="col-md-10">
+						 <input type="text" class="form-control"  name="app_id" value="wx81465e521747011f"/>
+					 </div>
+				</div>
+				<div class="form-group">
+					 <label for="title" class="col-md-2 control-label" style="text-align:center;">APP Secret</label>
+					 <div class="col-md-10">
+						 <input type="text" class="form-control"  name="app_secret" value="e3b8e0c47f91b4df0271c9e1fad85686"/>
+					 </div>
+				</div>
+				<div class="form-group">
+					 <label for="title" class="col-md-2 control-label" style="text-align:center;">内容</label>
+					 <div class="col-md-10">
+						 <textarea class="form-control"  name="content" cols="40" rows="20" placeholder="输入自定义消息，可以使用html a 标签跳转外链到qq.com"></textarea>
+					 </div>
+				</div>
+				<div class="row clearfix">
+					<div class="col-md-10 column"  style="text-align:center;">
+							<input type="submit" class="btn btn-primary" />
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-6 column" style="background-color:red">
+			<form role="form" action="<%= formUrlPROD %>" method="post" class="form-horizontal">
+				<div class="row">
+					<div class="col-lg-12 column" style="background-color:yellow">
+						<h2>设定文本消息，点按钮群发(正式号)</h2>
+					</div>
+				</div>
+				<div class="form-group">
+					 <label for="title" class="col-md-2 control-label" style="text-align:center;">APP ID</label>
+					 <div class="col-md-10">
+						 <input type="text" class="form-control"  name="" value="" placeholder="正式环境不用你填"/>
+					 </div>
+				</div>
+				<div class="form-group">
+					 <label for="title" class="col-md-2 control-label" style="text-align:center;">APP Secret</label>
+					 <div class="col-md-10">
+						 <input type="text" class="form-control"  name="" value=""  placeholder="正式环境不用你填"/>
+					 </div>
+				</div>
+				<div class="form-group">
+					 <label for="title" class="col-md-2 control-label" style="text-align:center;">内容</label>
+					 <div class="col-md-10">
+						 <textarea class="form-control"  name="content" cols="40" rows="20" placeholder="这里是正式发送的接口，发送前仔细检查！！！"></textarea>
+					 </div>
+				</div>
+				<div class="row clearfix">
+					<div class="col-md-10 column"  style="text-align:center;">
+							<input type="submit" class="btn btn-primary" />
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<hr/>
+<div class="container">
+
+</div>
+
+<hr/>
+
+</body>
+</html>

@@ -28,8 +28,10 @@ router.get(	'/del/:id', del );
 
 // router.get('/madd', madd);
 
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/fshop');
+// 数据库连接
+// mongoose = require('mongoose');
+// mongoose.connect('mongodb://localhost/fshop');
+var mongoose = require('./mongooseDAO.js');
 var Schema = mongoose.Schema;
 
 var objSchema = new Schema({

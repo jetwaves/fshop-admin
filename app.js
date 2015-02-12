@@ -11,6 +11,7 @@ var users = require('./routes/users');
 var products = require('./routes/products');
 var clients = require('./routes/clients');
 var models = require('./routes/models');
+var messages = require('./routes/messages');
 
 var app = express();
 
@@ -38,13 +39,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/init', init);     // 用于初始化
-app.use('/', routes);
+// app.use('/', routes);
+app.use('/', messages);
 app.use('/users', users);
 app.use('/products', products);
 app.use('/clients', clients);
 
-app.use('/models', models);
-
+// app.use('/models', models);
+app.use('/messages', messages);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
