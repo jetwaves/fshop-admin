@@ -35,8 +35,9 @@ router.post('/sendActionPROD', sendActionPROD );
 // 数据库连接
 // mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost/fshop');
-var mongoose = require('./mongooseDAO.js');
+// var mongoose = require('./mongooseDAO.js');
 
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var objSchema = new Schema({

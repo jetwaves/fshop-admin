@@ -1,22 +1,47 @@
 var express = require('express');
 var router = express.Router();
+// var _ = require('underscore');			// 酌情考虑是否需要使用underscore
+// mongoose 数据库连接			注意这里的数据库连接是在app.js里面执行的连接和断开
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-// 以下三项是跟模型相关的自定义参数
-var dbName 				= "fshop";					// 数据库名称
+// ========= 开始设定模型名称 ==================		☆★☆
+// 以下2项是跟模型相关的自定义参数
 var modelName 			= 'models';				// 模型英文名称
 var modelStr 			= '书';					// 模型中文名称
+// --------- 结束设定模型名称 ------------------
+/*										======== 过时 =========
+								使用mongojs 访问数据库的方法		
+								var dbName 				= "fshop";				// 数据库名称		// mongojs需要用, mongoose 不用
+								var mongojs =require('mongojs');	// mongojs 访问数据库
+								var collectionName = modelName;
+								var db = require('mongojs').connect(dbName,[modelName]);		*/
 
-var listDataUrl = '/' + modelName + '/listData';
-var addObjectPageName = '添加' + modelStr;
-var updateObjectPageName = '修改' + modelStr;
-var formUrl = '/' + modelName + '/update';
+// ======== 开始定义文档模型 ===================		☆★☆
+var objSchema = new Schema({
+	title:  String,
+	author: String,
+	body:   String,
+	hidden: Boolean,
+});
+var objModel = mongoose.model('book', objSchema);
+// -------- 结束定义文档模型 -------------------
 
-var mongojs =require('mongojs');	// mongojs 访问数据库
-var collectionName = modelName;
-var db = require('mongojs').connect(dbName,[modelName]);
+// ===================  	设定自定义路由规则		==================  			☆★☆
+// 										注意跟下面的通用路由规则是否有重复
+		// router.HttpVerb(	'/path_to_visit0', function_name_to_deal_with_0 );
+		// router.get(		'/path_to_visit1', function_name_to_deal_with_1 );
+		// router.post(		'/path_to_visit2', function_name_to_deal_with_2 );
+// -------------------      结束自定义路由规则      ------------------
 
-var _ = require('underscore');
+// ========== 自定义的处理http请求的方法 =============== ☆★☆
 
+
+// ------------------------------------------------------------
+
+
+// 从这里往下是数据库模型访问的通用CRUD，跟数据库名称，字段名称，字段数量无关
+// ========= 开始通用路由规则 ==================
 router.get(	'/list', list );
 router.get(	'/listData', listData );
 router.get(	'/info/:id', info );
@@ -25,31 +50,18 @@ router.post('/updateAction', updateAction );
 router.get(	'/add', add );
 router.post('/addAction', addAction );
 router.get(	'/del/:id', del );
+// --------- 结束设定路由规则 ------------------
 
-// router.get('/madd', madd);
-
-// 数据库连接
-// mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/fshop');
-var mongoose = require('./mongooseDAO.js');
-var Schema = mongoose.Schema;
-
-var objSchema = new Schema({
-	title:  String,
-	author: String,
-	body:   String,
-	hidden: Boolean,
-});
-var objModel = mongoose.model('book', objSchema);
-
-
+var listDataUrl 			= '/' + modelName + '/listData';
+var addObjectPageName 		= '添加' + modelStr;
+var updateObjectPageName 	= '修改' + modelStr;
+var formUrl 				= '/' + modelName + '/update';
 
 function _infoJump(res, info, targetUrl){
 	rend = { msg : info, targetUrl : targetUrl };
 	res.render("./public/info.html", rend);
 }
 
-// same
 function list(req, res){
 	var rend = { 
 					modelStr : modelStr,

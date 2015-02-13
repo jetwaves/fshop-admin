@@ -9,7 +9,6 @@ function md5 (text) {
 
 var mongojs =require('mongojs');	// mongojs 访问数据库
 
-// var dbName = "fshopAdmin";
 var dbName = "fshop";
 var collectionName = "users";
 var db = require('mongojs').connect(dbName,["users"]);
@@ -23,7 +22,6 @@ var password = "";		// 初始化的超级用户密码
 var salt = '';			// 这里改成用户自己需要的超级用户salt
 
 // 模型内部路由设置
-// router.get('/', list );
 router.get('/init', init );
 
 function encryptPassword( pwd, salt){
