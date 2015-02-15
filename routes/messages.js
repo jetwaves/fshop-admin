@@ -71,7 +71,7 @@ function sendAction(req, res){
 	console.log('	messages.js 		sendAction 		app_secret = ' + app_secret);
 	console.log('	messages.js 		sendAction 		content = ' + content);
 
-	var CMessenger = require('./wx_messenger.js');
+	var CMessenger = require('./CWxMessenger.js');
 	var messenger = new CMessenger(app_id, app_secret);
 	messenger.bulkSend(content);
 
